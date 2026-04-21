@@ -6,3 +6,5 @@
 script = ExtResource("1_jdcut")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257578741]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
