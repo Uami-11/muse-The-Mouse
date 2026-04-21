@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cuvkpprd30puq"]
+
+[ext_resource type="Script" uid="uid://ia8spl7dh5k2" path="res://src/characters/components/HurtboxComponent.cs" id="1_jdcut"]
+
+[node name="HurtboxComponent" type="Area2D" unique_id=423441330]
+script = ExtResource("1_jdcut")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1257578741]

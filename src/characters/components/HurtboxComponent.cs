@@ -1,0 +1,28 @@
+using System;
+using Godot;
+
+public partial class HurtboxComponent : Area2D
+{
+    [ExportCategory("Hurtbox vars")]
+    [Export]
+    public string Team = "player";
+
+    [Export]
+    private HealthComponent _health;
+
+    public override void _Ready()
+    {
+        AreaEntered += OnAreaEntered;
+    }
+
+    private void OnAreaEntered(Area2D area)
+    {
+        if (area is not HitboxComponent hitbox)
+            return;
+
+        if (hitbox.Team == Team)
+            return;
+
+        _health?.TakeDamage(hitbox.Damage);
+    }
+}

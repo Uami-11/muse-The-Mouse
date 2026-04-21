@@ -1,24 +1,9 @@
 [gd_scene format=4 uid="uid://dqbja64uio6l5"]
 
-[ext_resource type="Texture2D" uid="uid://b8s7j100yqssm" path="res://assets/images/tilesets/grasstiles.png" id="1_vw7bf"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1p36c"]
-texture = ExtResource("1_vw7bf")
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_1mbxj"]
-sources/0 = SubResource("TileSetAtlasSource_1p36c")
+[ext_resource type="TileSet" uid="uid://dpqmeejv322kd" path="res://resources/tiles/grasstiles.tres" id="1_vw7bf"]
 
 [node name="test_level" type="Node2D" unique_id=1509424934]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1553762577]
 tile_map_data = PackedByteArray("AAABAAAAAAAAAAAAAAACAAAAAAABAAAAAAADAAAAAAABAAAAAAAEAAAAAAABAAAAAAAFAAAAAAABAAAAAAAGAAAAAAABAAAAAAAHAAAAAAACAAAAAAACAAEAAAABAAEAAAADAAEAAAABAAEAAAAEAAEAAAABAAEAAAAFAAEAAAABAAEAAAAGAAEAAAABAAEAAAAHAAEAAAACAAEAAAABAAEAAAAAAAEAAAABAAIAAAAAAAEAAAABAAMAAAAAAAIAAAACAAIAAAABAAEAAAADAAIAAAABAAEAAAAEAAIAAAABAAEAAAAFAAIAAAABAAEAAAAGAAIAAAABAAEAAAAHAAIAAAACAAEAAAACAAMAAAABAAIAAAADAAMAAAABAAIAAAAEAAMAAAABAAIAAAAFAAMAAAABAAIAAAAGAAMAAAABAAIAAAAHAAMAAAACAAIAAAA=")
-tile_set = SubResource("TileSet_1mbxj")
+tile_set = ExtResource("1_vw7bf")
