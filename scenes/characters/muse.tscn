@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://bvtowcfotjge6"]
+
+[ext_resource type="SpriteFrames" uid="uid://bqwcjnntg02sr" path="res://resources/sprites/player.tres" id="1_3neji"]
+[ext_resource type="Script" uid="uid://dq54wsiiaw5n0" path="res://src/characters/player/Muse.cs" id="1_utrn0"]
+[ext_resource type="Script" uid="uid://dvbjhpqirblgm" path="res://src/characters/components/StateMachineComponent.cs" id="4_7pfpw"]
+[ext_resource type="Script" uid="uid://cia7a6sa3nubo" path="res://src/characters/player/IdleState.cs" id="6_cgp23"]
+[ext_resource type="PackedScene" uid="uid://c3jrtkbqoscrv" path="res://scenes/characters/components/health_component.tscn" id="6_gp4mu"]
+[ext_resource type="Script" uid="uid://5qlcteww6mj6" path="res://src/characters/player/WalkState.cs" id="7_4tdk1"]
+[ext_resource type="PackedScene" uid="uid://cuvkpprd30puq" path="res://scenes/characters/components/hurtbox_component.tscn" id="7_6evll"]
+[ext_resource type="Script" uid="uid://cd4eab1pfimvs" path="res://src/characters/player/JumpState.cs" id="8_d1645"]
+[ext_resource type="Script" uid="uid://odpkika68el8" path="res://src/characters/player/FallState.cs" id="9_qmul7"]
+[ext_resource type="Script" uid="uid://dhmpqj8y83bih" path="res://src/characters/player/ShootState.cs" id="10_laqq8"]
+[ext_resource type="Script" uid="uid://def1sfh0n0b3v" path="res://src/characters/player/HurtState.cs" id="11_cgp23"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3neji"]
+size = Vector2(7, 3)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3neji"]
+radius = 2.0
+height = 10.0
+
+[node name="muse" type="CharacterBody2D" unique_id=639937448 node_paths=PackedStringArray("sprite", "health", "hurtbox", "StateMachine", "coyoteTimer", "jumpBufferTimer", "shootCooldown")]
+script = ExtResource("1_utrn0")
+sprite = NodePath("AnimatedSprite2D")
+health = NodePath("HealthComponent")
+hurtbox = NodePath("HurtboxComponent")
+StateMachine = NodePath("StateMachineComponent")
+coyoteTimer = NodePath("Coyote")
+jumpBufferTimer = NodePath("JumpBuffer")
+shootCooldown = NodePath("ShootCooldown")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1620157892]
+sprite_frames = ExtResource("1_3neji")
+animation = &"walk"
+autoplay = "idle"
+frame = 2
+frame_progress = 0.71029675
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=74921815]
+position = Vector2(0.5, 6.5)
+shape = SubResource("RectangleShape2D_3neji")
+
+[node name="HealthComponent" parent="." unique_id=1658908744 instance=ExtResource("6_gp4mu")]
+
+[node name="HurtboxComponent" parent="." unique_id=423441330 node_paths=PackedStringArray("_health") instance=ExtResource("7_6evll")]
+collision_mask = 128
+_health = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=1777848759]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_3neji")
+debug_color = Color(0.9444907, 0, 0.3778301, 0.41960785)
+
+[node name="StateMachineComponent" type="Node" parent="." unique_id=596918031]
+script = ExtResource("4_7pfpw")
+InitialState = "IdleState"
+
+[node name="IdleState" type="Node" parent="StateMachineComponent" unique_id=1874011935 node_paths=PackedStringArray("_player")]
+script = ExtResource("6_cgp23")
+_player = NodePath("../..")
+
+[node name="WalkState" type="Node" parent="StateMachineComponent" unique_id=510615451 node_paths=PackedStringArray("_player")]
+script = ExtResource("7_4tdk1")
+_player = NodePath("../..")
+
+[node name="JumpState" type="Node" parent="StateMachineComponent" unique_id=229663601 node_paths=PackedStringArray("_player")]
+script = ExtResource("8_d1645")
+_player = NodePath("../..")
+
+[node name="FallState" type="Node" parent="StateMachineComponent" unique_id=1809448565 node_paths=PackedStringArray("_player")]
+script = ExtResource("9_qmul7")
+_player = NodePath("../..")
+
+[node name="ShootState" type="Node" parent="StateMachineComponent" unique_id=673798613 node_paths=PackedStringArray("_player")]
+script = ExtResource("10_laqq8")
+_player = NodePath("../..")
+
+[node name="HurtState" type="Node" parent="StateMachineComponent" unique_id=237319938 node_paths=PackedStringArray("_player", "hurtTimer")]
+script = ExtResource("11_cgp23")
+_player = NodePath("../..")
+hurtTimer = NodePath("HurtDuration")
+
+[node name="HurtDuration" type="Timer" parent="StateMachineComponent/HurtState" unique_id=803477589]
+wait_time = 0.4
+one_shot = true
+
+[node name="ShootOriginLeft" type="Marker2D" parent="." unique_id=629374407]
+position = Vector2(-7, 2)
+
+[node name="ShootOriginRight" type="Marker2D" parent="." unique_id=1515368786]
+position = Vector2(9, 2)
+
+[node name="Coyote" type="Timer" parent="." unique_id=1780734085]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBuffer" type="Timer" parent="." unique_id=509816562]
+wait_time = 0.13
+one_shot = true
+
+[node name="ShootCooldown" type="Timer" parent="." unique_id=823925810]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="StateMachineComponent/HurtState/HurtDuration" to="StateMachineComponent/HurtState" method="_on_hurt_duration_timeout"]

@@ -10,6 +10,9 @@ public partial class HurtboxComponent : Area2D
     [Export]
     private HealthComponent _health;
 
+    [Signal]
+    public delegate void HurtEventHandler();
+
     public override void _Ready()
     {
         AreaEntered += OnAreaEntered;
@@ -24,5 +27,6 @@ public partial class HurtboxComponent : Area2D
             return;
 
         _health?.TakeDamage(hitbox.Damage);
+        EmitSignal(SignalName.Hurt);
     }
 }
