@@ -21,7 +21,7 @@ public partial class JumpState : State
             _player.SetFacing(dir > 0);
             _player.Velocity = _player.Velocity with
             {
-                Y = Mathf.MoveToward(
+                X = Mathf.MoveToward(
                     _player.Velocity.Y,
                     _player.Velocity.Y * _player.MoveSpeed,
                     _player.AirAcceleration * (float)delta
@@ -36,7 +36,7 @@ public partial class JumpState : State
 
         if (Input.IsActionJustReleased("jump") && _player.Velocity.Y < 0)
         {
-            _player.Velocity = _player.Velocity with { Y = _player.Velocity.Y * 0.5f };
+            _player.Velocity = _player.Velocity with { Y = _player.Velocity.Y * 0.82f };
         }
 
         if (_player.Velocity.Y > 0)

@@ -85,7 +85,7 @@ public partial class Muse : CharacterBody2D
 
     public bool CanShoot()
     {
-        return !shootCooldown.IsStopped();
+        return shootCooldown.IsStopped();
     }
 
     public void OnHurt()

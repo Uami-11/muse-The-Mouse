@@ -19,6 +19,11 @@ public partial class ShootState : State
         // SPawn bullter
     }
 
+    public override void Exit()
+    {
+        _player.StartShootCooldown();
+    }
+
     public override void PhysicsUpdate(double delta)
     {
         if (!_player.IsOnFloor())

@@ -10,7 +10,7 @@ public partial class FallState : State
     {
         _player.sprite.Play("fall");
 
-        if (_player.Velocity.Y > 0)
+        if (_player.Velocity.Y >= 0)
             _player.StartCoyoteTime();
     }
 
@@ -23,7 +23,7 @@ public partial class FallState : State
 
             _player.Velocity = _player.Velocity with
             {
-                Y = Mathf.MoveToward(
+                X = Mathf.MoveToward(
                     _player.Velocity.Y,
                     _player.Velocity.Y * _player.MoveSpeed,
                     _player.AirAcceleration * (float)delta

@@ -31,7 +31,7 @@ public partial class WalkState : State
         {
             _player.Velocity = _player.Velocity with
             {
-                X = Mathf.MoveToward(_player.Velocity.X, 0, dir * _player.Friction * (float)delta),
+                X = Mathf.MoveToward(_player.Velocity.X, 0, _player.Friction * (float)delta),
             };
         }
 
