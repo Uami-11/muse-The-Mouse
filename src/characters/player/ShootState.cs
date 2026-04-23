@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class ShootState : State
@@ -10,33 +9,41 @@ public partial class ShootState : State
 
     public override void Enter()
     {
-        _player.sprite.Play("shoot");
         _wasOnFloor = _player.IsOnFloor();
+        _player.sprite.Play("shoot");
+        _player.StartShootCooldown();
 
         Vector2 dir = _player.FacingRight ? Vector2.Right : Vector2.Left;
         string origin = _player.FacingRight ? "ShootOriginRight" : "ShootOriginLeft";
 
-        // SPawn bullter
-    }
-
-    public override void Exit()
-    {
-        _player.StartShootCooldown();
+        // TODO: _player.SpawnBullet(origin, dir);
     }
 
     public override void PhysicsUpdate(double delta)
     {
         if (!_player.IsOnFloor())
-        {
             _player.Velocity = _player.Velocity with
             {
-                Y = _player.Velocity.Y + _player.Gravity * (float)delta,
+                Y = Mathf.Min(
+                    _player.Velocity.Y + _player.Gravity * (float)delta,
+                    _player.MaxFallSpeed
+                ),
             };
-        }
 
         _player.MoveAndSlide();
 
         if (!_player.sprite.IsPlaying())
-            Machine.TransitionTo(_wasOnFloor ? "IdleState" : "FallState");
+        {
+            if (Input.IsActionPressed("shoot") && _player.CanShoot())
+            {
+                _player.sprite.Play("shoot");
+                _player.StartShootCooldown();
+                // TODO: _player.SpawnBullet(...)
+            }
+            else
+            {
+                Machine.TransitionTo(_wasOnFloor ? "IdleState" : "FallState");
+            }
+        }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class WalkState : State
@@ -6,10 +5,7 @@ public partial class WalkState : State
     [Export]
     private Muse _player;
 
-    public override void Enter()
-    {
-        _player.sprite.Play("walk");
-    }
+    public override void Enter() => _player.sprite.Play("walk");
 
     public override void PhysicsUpdate(double delta)
     {
@@ -17,6 +13,7 @@ public partial class WalkState : State
 
         if (dir != 0)
         {
+            _player.ApplyDirectionSnap(dir);
             _player.SetFacing(dir > 0);
             _player.Velocity = _player.Velocity with
             {
@@ -35,30 +32,27 @@ public partial class WalkState : State
             };
         }
 
+        _player.MoveAndSlide();
+
         if (!_player.IsOnFloor())
         {
             Machine.TransitionTo("FallState");
             return;
         }
-
         if (dir == 0)
         {
             Machine.TransitionTo("IdleState");
             return;
         }
-
         if (Input.IsActionJustPressed("jump"))
         {
             Machine.TransitionTo("JumpState");
             return;
         }
-
         if (Input.IsActionJustPressed("shoot") && _player.CanShoot())
         {
             Machine.TransitionTo("ShootState");
             return;
         }
-
-        _player.MoveAndSlide();
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class JumpState : State
@@ -6,8 +5,11 @@ public partial class JumpState : State
     [Export]
     private Muse _player;
 
+    private bool _firstFrame;
+
     public override void Enter()
     {
+        _firstFrame = true;
         _player.sprite.Play("jump");
         _player.Velocity = _player.Velocity with { Y = _player.JumpForce };
     }
@@ -18,25 +20,35 @@ public partial class JumpState : State
 
         if (dir != 0)
         {
+            _player.ApplyDirectionSnap(dir);
             _player.SetFacing(dir > 0);
             _player.Velocity = _player.Velocity with
             {
                 X = Mathf.MoveToward(
-                    _player.Velocity.Y,
-                    _player.Velocity.Y * _player.MoveSpeed,
+                    _player.Velocity.X,
+                    dir * _player.MoveSpeed,
                     _player.AirAcceleration * (float)delta
                 ),
             };
         }
 
+        if (!Input.IsActionPressed("jump") && _player.Velocity.Y < -120f)
+            _player.Velocity = _player.Velocity with { Y = _player.Velocity.Y * 0.82f };
+
         _player.Velocity = _player.Velocity with
         {
-            Y = _player.Velocity.Y + _player.Gravity * (float)delta,
+            Y = Mathf.Min(
+                _player.Velocity.Y + _player.Gravity * (float)delta,
+                _player.MaxFallSpeed
+            ),
         };
 
-        if (Input.IsActionJustReleased("jump") && _player.Velocity.Y < 0)
+        _player.MoveAndSlide();
+
+        if (_firstFrame)
         {
-            _player.Velocity = _player.Velocity with { Y = _player.Velocity.Y * 0.82f };
+            _firstFrame = false;
+            return;
         }
 
         if (_player.Velocity.Y > 0)
@@ -44,19 +56,15 @@ public partial class JumpState : State
             Machine.TransitionTo("FallState");
             return;
         }
-
         if (_player.IsOnFloor())
         {
             Machine.TransitionTo("IdleState");
             return;
         }
-
         if (Input.IsActionJustPressed("shoot") && _player.CanShoot())
         {
             Machine.TransitionTo("ShootState");
             return;
         }
-
-        _player.MoveAndSlide();
     }
 }

@@ -1,9 +1,8 @@
-using System;
 using Godot;
 
 public partial class Muse : CharacterBody2D
 {
-    [ExportCategory("player resources")]
+    [ExportCategory("Player Resources")]
     [Export]
     public AnimatedSprite2D sprite;
 
@@ -16,25 +15,29 @@ public partial class Muse : CharacterBody2D
     [Export]
     public StateMachineComponent StateMachine;
 
-    [ExportCategory("player vars")]
+    [ExportCategory("Player Vars")]
     [Export]
-    public float MoveSpeed = 80f;
+    public float MoveSpeed = 144f;
 
     [Export]
-    public float Acceleration = 500f;
+    public float Acceleration = 540f;
 
     [Export]
-    public float Friction = 800f;
+    public float Friction = 720f;
 
     [Export]
-    public float AirAcceleration = 300f;
+    public float AirAcceleration = 288f;
 
     [Export]
-    public float JumpForce = -200f;
+    public float JumpForce = -210f;
 
     [Export]
-    public float Gravity = 600f;
+    public float Gravity = 540f;
 
+    [Export]
+    public float MaxFallSpeed = 840f;
+
+    [ExportCategory("Timers")]
     [Export]
     public Timer coyoteTimer;
 
@@ -58,38 +61,23 @@ public partial class Muse : CharacterBody2D
         sprite.FlipH = right;
     }
 
-    public void StartCoyoteTime()
+    public void ApplyDirectionSnap(float dir)
     {
-        coyoteTimer.Start();
+        if ((Velocity.X > 0 && dir < 0) || (Velocity.X < 0 && dir > 0))
+            Velocity = Velocity with { X = Velocity.X * 0.7f };
     }
 
-    public bool CoyoteValid()
-    {
-        return !coyoteTimer.IsStopped();
-    }
+    public void StartCoyoteTime() => coyoteTimer.Start();
 
-    public void StartJumpBuffer()
-    {
-        jumpBufferTimer.Start();
-    }
+    public bool CoyoteValid() => !coyoteTimer.IsStopped();
 
-    public bool JumpBufferValid()
-    {
-        return !jumpBufferTimer.IsStopped();
-    }
+    public void StartJumpBuffer() => jumpBufferTimer.Start();
 
-    public void StartShootCooldown()
-    {
-        shootCooldown.Start();
-    }
+    public bool JumpBufferValid() => !jumpBufferTimer.IsStopped();
 
-    public bool CanShoot()
-    {
-        return shootCooldown.IsStopped();
-    }
+    public void StartShootCooldown() => shootCooldown.Start();
 
-    public void OnHurt()
-    {
-        StateMachine.TransitionTo("HurtState");
-    }
+    public bool CanShoot() => shootCooldown.IsStopped();
+
+    public void OnHurt() => StateMachine.TransitionTo("HurtState");
 }

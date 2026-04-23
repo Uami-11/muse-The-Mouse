@@ -12,6 +12,6 @@ tile_set = ExtResource("1_vw7bf")
 [node name="muse" parent="." unique_id=639937448 instance=ExtResource("2_1p36c")]
 position = Vector2(51, -19)
 
-[node name="Camera2D" type="Camera2D" parent="muse" unique_id=1201889626]
-position = Vector2(1, 0)
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1201889626]
+position = Vector2(171, -44)
 zoom = Vector2(4, 4)

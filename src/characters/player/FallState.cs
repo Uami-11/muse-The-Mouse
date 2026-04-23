@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class FallState : State
@@ -9,7 +8,6 @@ public partial class FallState : State
     public override void Enter()
     {
         _player.sprite.Play("fall");
-
         if (_player.Velocity.Y >= 0)
             _player.StartCoyoteTime();
     }
@@ -17,15 +15,16 @@ public partial class FallState : State
     public override void PhysicsUpdate(double delta)
     {
         float dir = Input.GetAxis("move_left", "move_right");
+
         if (dir != 0)
         {
+            _player.ApplyDirectionSnap(dir);
             _player.SetFacing(dir > 0);
-
             _player.Velocity = _player.Velocity with
             {
                 X = Mathf.MoveToward(
-                    _player.Velocity.Y,
-                    _player.Velocity.Y * _player.MoveSpeed,
+                    _player.Velocity.X,
+                    dir * _player.MoveSpeed,
                     _player.AirAcceleration * (float)delta
                 ),
             };
@@ -33,19 +32,21 @@ public partial class FallState : State
 
         _player.Velocity = _player.Velocity with
         {
-            Y = _player.Velocity.Y + _player.Gravity * (float)delta,
+            Y = Mathf.Min(
+                _player.Velocity.Y + _player.Gravity * (float)delta,
+                _player.MaxFallSpeed
+            ),
         };
+
+        _player.MoveAndSlide();
 
         if (Input.IsActionJustPressed("jump") && _player.CoyoteValid())
         {
             Machine.TransitionTo("JumpState");
             return;
         }
-
         if (Input.IsActionJustPressed("jump"))
-        {
             _player.StartJumpBuffer();
-        }
 
         if (_player.IsOnFloor())
         {
@@ -63,7 +64,5 @@ public partial class FallState : State
             Machine.TransitionTo("ShootState");
             return;
         }
-
-        _player.MoveAndSlide();
     }
 }

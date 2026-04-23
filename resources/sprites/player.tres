@@ -83,9 +83,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cgp23")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
