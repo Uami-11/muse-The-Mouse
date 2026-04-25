@@ -21,13 +21,15 @@ public partial class ShootState : State
 
     public override void PhysicsUpdate(double delta)
     {
-        if (!_player.IsOnFloor())
+        if (_player.IsOnFloor())
             _player.Velocity = _player.Velocity with
             {
-                Y = Mathf.Min(
-                    _player.Velocity.Y + _player.Gravity * (float)delta,
-                    _player.MaxFallSpeed
-                ),
+                X = Mathf.MoveToward(_player.Velocity.X, 0, (float)350.0 * (float)delta),
+            };
+        else
+            _player.Velocity = _player.Velocity with
+            {
+                Y = _player.Velocity.Y + 600 * (float)delta,
             };
 
         _player.MoveAndSlide();

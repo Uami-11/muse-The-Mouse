@@ -10,6 +10,7 @@ public partial class JumpState : State
     public override void Enter()
     {
         _firstFrame = true;
+        _player.LeftGroundByJumping = true;
         _player.sprite.Play("jump");
         _player.Velocity = _player.Velocity with { Y = _player.JumpForce };
     }

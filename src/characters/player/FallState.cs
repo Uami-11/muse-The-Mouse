@@ -8,7 +8,7 @@ public partial class FallState : State
     public override void Enter()
     {
         _player.sprite.Play("fall");
-        if (_player.Velocity.Y >= 0)
+        if (_player.Velocity.Y >= 0 && !_player.LeftGroundByJumping)
             _player.StartCoyoteTime();
     }
 

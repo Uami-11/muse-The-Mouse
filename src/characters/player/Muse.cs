@@ -48,6 +48,7 @@ public partial class Muse : CharacterBody2D
     public Timer shootCooldown;
 
     public bool FacingRight { get; set; } = false;
+    public bool LeftGroundByJumping { get; set; } = false;
 
     public override void _Ready()
     {
