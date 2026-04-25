@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://deejl4cnpn4n1"]
+
+[ext_resource type="Texture2D" uid="uid://c77kd2ck8mx3g" path="res://assets/images/misc/bullet.png" id="1_7d8n7"]
+[ext_resource type="Script" uid="uid://dyvcr2h64b3io" path="res://src/misc/Bullet.cs" id="1_mj5dn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mj5dn"]
+atlas = ExtResource("1_7d8n7")
+region = Rect2(0, 0, 6, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrpsu"]
+atlas = ExtResource("1_7d8n7")
+region = Rect2(6, 0, 6, 6)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_221fg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mj5dn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrpsu")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_53egb"]
+size = Vector2(6, 6)
+
+[node name="Bullet" type="Area2D" unique_id=560648859 node_paths=PackedStringArray("sprite", "onScreen")]
+collision_layer = 2
+collision_mask = 8
+script = ExtResource("1_mj5dn")
+sprite = NodePath("AnimatedSprite2D")
+onScreen = NodePath("VisibleOnScreenNotifier2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1705343734]
+sprite_frames = SubResource("SpriteFrames_221fg")
+animation = &"shoot"
+autoplay = "shoot"
+frame = 1
+frame_progress = 0.30990458
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=403312542]
+shape = SubResource("RectangleShape2D_53egb")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1889246142]
+rect = Rect2(-3, -3, 6, 6)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="screen_exited"]
