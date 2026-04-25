@@ -2,6 +2,7 @@
 
 [ext_resource type="SpriteFrames" uid="uid://bqwcjnntg02sr" path="res://resources/sprites/player.tres" id="1_3neji"]
 [ext_resource type="Script" uid="uid://dq54wsiiaw5n0" path="res://src/characters/player/Muse.cs" id="1_utrn0"]
+[ext_resource type="PackedScene" uid="uid://deejl4cnpn4n1" path="res://scenes/misc/bullet.tscn" id="2_4tdk1"]
 [ext_resource type="Script" uid="uid://dvbjhpqirblgm" path="res://src/characters/components/StateMachineComponent.cs" id="4_7pfpw"]
 [ext_resource type="Script" uid="uid://cia7a6sa3nubo" path="res://src/characters/player/IdleState.cs" id="6_cgp23"]
 [ext_resource type="PackedScene" uid="uid://c3jrtkbqoscrv" path="res://scenes/characters/components/health_component.tscn" id="6_gp4mu"]
@@ -25,6 +26,7 @@ sprite = NodePath("AnimatedSprite2D")
 health = NodePath("HealthComponent")
 hurtbox = NodePath("HurtboxComponent")
 StateMachine = NodePath("StateMachineComponent")
+BulletScene = ExtResource("2_4tdk1")
 MoveSpeed = 244.0
 JumpForce = -300.0
 Gravity = 900.0

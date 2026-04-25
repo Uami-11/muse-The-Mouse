@@ -14,13 +14,13 @@ public partial class ShootState : State
         _player.StartShootCooldown();
 
         Vector2 dir = _player.FacingRight ? Vector2.Right : Vector2.Left;
-        string origin = _player.FacingRight ? "ShootOriginRight" : "ShootOriginLeft";
 
-        // TODO: _player.SpawnBullet(origin, dir);
+        _player.SpawnBullet(dir);
     }
 
     public override void PhysicsUpdate(double delta)
     {
+        Vector2 dir = _player.FacingRight ? Vector2.Right : Vector2.Left;
         if (_player.IsOnFloor())
             _player.Velocity = _player.Velocity with
             {
@@ -40,7 +40,7 @@ public partial class ShootState : State
             {
                 _player.sprite.Play("shoot");
                 _player.StartShootCooldown();
-                // TODO: _player.SpawnBullet(...)
+                _player.SpawnBullet(dir);
             }
             else
             {

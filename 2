@@ -88,12 +88,5 @@ public partial class Muse : CharacterBody2D
     public void SpawnBullet(Vector2 direction)
     {
         string originName = direction == Vector2.Right ? "ShootOriginRight" : "ShootOriginLeft";
-
-        var bullet = BulletScene.Instantiate<Bullet>();
-        bullet.GlobalPosition = GetNode<Marker2D>(originName).GlobalPosition;
-        bullet.Direction = direction;
-        bullet.Team = "player";
-
-        GetTree().CurrentScene.AddChild(bullet);
     }
 }
