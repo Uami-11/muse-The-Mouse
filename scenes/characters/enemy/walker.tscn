@@ -64,9 +64,15 @@ sprite_frames = SubResource("SpriteFrames_rphru")
 animation = &"walk"
 autoplay = "walk"
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1627233561]
+position = Vector2(-1, -0.5)
+shape = SubResource("RectangleShape2D_c2div")
+debug_color = Color(0.97127575, 0, 0.4522931, 0.41960785)
+
 [node name="HealthComponent" parent="." unique_id=1658908744 instance=ExtResource("3_unfx2")]
 
 [node name="HitboxComponent" parent="." unique_id=331559080 instance=ExtResource("4_hwfpj")]
+visible = false
 collision_layer = 128
 collision_mask = 0
 
@@ -85,10 +91,10 @@ _health = NodePath("../HealthComponent")
 shape = SubResource("CircleShape2D_2j21f")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1332837267]
+visible = false
 collision_layer = 0
 
 [node name="Detection" type="CollisionShape2D" parent="DetectionArea" unique_id=1193909425]
-visible = false
 shape = SubResource("CircleShape2D_c2ifv")
 debug_color = Color(0.10096154, 0.648547, 0, 0.41960785)
 
