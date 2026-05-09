@@ -1,6 +1,8 @@
 using System;
 using Godot;
 
+namespace player;
+
 public partial class HurtState : State
 {
     [Export]

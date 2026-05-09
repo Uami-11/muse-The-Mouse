@@ -1,0 +1,45 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dbamcjkynm3a"]
+
+[ext_resource type="Texture2D" uid="uid://cxig2jt53ko80" path="res://assets/images/characters/enemies/fishdie/fishdiehit.png" id="1_e88dv"]
+[ext_resource type="Texture2D" uid="uid://dybfqb01l61je" path="res://assets/images/characters/enemies/fishdie/fishdie.png" id="2_4uxg1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udbcj"]
+atlas = ExtResource("1_e88dv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sko4r"]
+atlas = ExtResource("2_4uxg1")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xakgv"]
+atlas = ExtResource("2_4uxg1")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggyng"]
+atlas = ExtResource("2_4uxg1")
+region = Rect2(32, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udbcj")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 0.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sko4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xakgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggyng")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

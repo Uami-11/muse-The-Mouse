@@ -1,51 +1,15 @@
 [gd_scene format=3 uid="uid://df636wgobxdyy"]
 
-[ext_resource type="Texture2D" uid="uid://cxig2jt53ko80" path="res://assets/images/characters/enemies/fishdie/fishdiehit.png" id="1_61dlu"]
-[ext_resource type="Texture2D" uid="uid://dybfqb01l61je" path="res://assets/images/characters/enemies/fishdie/fishdie.png" id="2_babq1"]
+[ext_resource type="Script" uid="uid://eyd6aoljn5e2" path="res://src/characters/enemies/fishdie/Walker.cs" id="1_babq1"]
+[ext_resource type="SpriteFrames" uid="uid://dbamcjkynm3a" path="res://resources/sprites/fishdie.tres" id="2_63u3r"]
 [ext_resource type="PackedScene" uid="uid://c3jrtkbqoscrv" path="res://scenes/characters/components/health_component.tscn" id="3_unfx2"]
 [ext_resource type="PackedScene" uid="uid://blnybeb7wddy3" path="res://scenes/characters/components/hitbox_component.tscn" id="4_hwfpj"]
 [ext_resource type="PackedScene" uid="uid://cuvkpprd30puq" path="res://scenes/characters/components/hurtbox_component.tscn" id="5_63u3r"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_udbcj"]
-atlas = ExtResource("1_61dlu")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sko4r"]
-atlas = ExtResource("2_babq1")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xakgv"]
-atlas = ExtResource("2_babq1")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ggyng"]
-atlas = ExtResource("2_babq1")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_rphru"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_udbcj")
-}],
-"loop": true,
-"name": &"hit",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sko4r")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xakgv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ggyng")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
+[ext_resource type="Script" uid="uid://dvbjhpqirblgm" path="res://src/characters/components/StateMachineComponent.cs" id="6_udbcj"]
+[ext_resource type="Script" uid="uid://c2cw0evexi5ja" path="res://src/characters/enemies/fishdie/PatrolState.cs" id="7_udbcj"]
+[ext_resource type="Script" uid="uid://bnxd4llx7tgkt" path="res://src/characters/enemies/fishdie/ChaseState.cs" id="8_sko4r"]
+[ext_resource type="Script" uid="uid://bhiyl520bjgg4" path="res://src/characters/enemies/fishdie/HurtState.cs" id="9_xakgv"]
+[ext_resource type="Script" uid="uid://bii0f34alt0y0" path="res://src/characters/enemies/fishdie/DeadState.cs" id="10_ggyng"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c2div"]
 size = Vector2(12, 9)
@@ -56,11 +20,19 @@ radius = 7.071068
 [sub_resource type="CircleShape2D" id="CircleShape2D_c2ifv"]
 radius = 100.0
 
-[node name="Walker" type="CharacterBody2D" unique_id=966812379]
+[node name="Walker" type="CharacterBody2D" unique_id=966812379 node_paths=PackedStringArray("Sprite", "Health", "Hurtbox", "detection", "StateMachine", "WallDetector", "EdgeDetector")]
 collision_layer = 2
+script = ExtResource("1_babq1")
+Sprite = NodePath("AnimatedSprite2D")
+Health = NodePath("HealthComponent")
+Hurtbox = NodePath("HurtboxComponent")
+detection = NodePath("DetectionArea")
+StateMachine = NodePath("StateMachineComponent")
+WallDetector = NodePath("WallDetection")
+EdgeDetector = NodePath("EdgeDetection")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=689623566]
-sprite_frames = SubResource("SpriteFrames_rphru")
+sprite_frames = ExtResource("2_63u3r")
 animation = &"walk"
 autoplay = "walk"
 
@@ -72,7 +44,6 @@ debug_color = Color(0.97127575, 0, 0.4522931, 0.41960785)
 [node name="HealthComponent" parent="." unique_id=1658908744 instance=ExtResource("3_unfx2")]
 
 [node name="HitboxComponent" parent="." unique_id=331559080 instance=ExtResource("4_hwfpj")]
-visible = false
 collision_layer = 128
 collision_mask = 0
 
@@ -91,7 +62,6 @@ _health = NodePath("../HealthComponent")
 shape = SubResource("CircleShape2D_2j21f")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1332837267]
-visible = false
 collision_layer = 0
 
 [node name="Detection" type="CollisionShape2D" parent="DetectionArea" unique_id=1193909425]
@@ -105,5 +75,25 @@ target_position = Vector2(-12, 10)
 target_position = Vector2(-16, 0)
 
 [node name="HurtTimer" type="Timer" parent="." unique_id=174456899]
+one_shot = true
 
 [node name="StateMachineComponent" type="Node" parent="." unique_id=636250989]
+script = ExtResource("6_udbcj")
+InitialState = "PatrolState"
+
+[node name="PatrolState" type="Node" parent="StateMachineComponent" unique_id=1804354887 node_paths=PackedStringArray("_walker")]
+script = ExtResource("7_udbcj")
+_walker = NodePath("../..")
+
+[node name="ChaseState" type="Node" parent="StateMachineComponent" unique_id=1201693821 node_paths=PackedStringArray("_walker")]
+script = ExtResource("8_sko4r")
+_walker = NodePath("../..")
+
+[node name="HurtState" type="Node" parent="StateMachineComponent" unique_id=1981703861 node_paths=PackedStringArray("_walker", "_hurtTimer")]
+script = ExtResource("9_xakgv")
+_walker = NodePath("../..")
+_hurtTimer = NodePath("../../HurtTimer")
+
+[node name="DeadState" type="Node" parent="StateMachineComponent" unique_id=1595261348 node_paths=PackedStringArray("_walker")]
+script = ExtResource("10_ggyng")
+_walker = NodePath("../..")
