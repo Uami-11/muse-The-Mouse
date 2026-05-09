@@ -30,7 +30,7 @@ size = Vector2(6, 6)
 
 [node name="Bullet" type="Area2D" unique_id=560648859 node_paths=PackedStringArray("sprite", "onScreen")]
 collision_layer = 2
-collision_mask = 8
+collision_mask = 9
 script = ExtResource("1_mj5dn")
 sprite = NodePath("AnimatedSprite2D")
 onScreen = NodePath("VisibleOnScreenNotifier2D")
