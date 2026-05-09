@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://bii0f34alt0y0" path="res://src/characters/enemies/fishdie/DeadState.cs" id="10_ggyng"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c2div"]
-size = Vector2(12, 9)
+size = Vector2(15, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2j21f"]
 radius = 7.071068
@@ -37,13 +37,14 @@ animation = &"walk"
 autoplay = "walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1627233561]
-position = Vector2(-1, -0.5)
+position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_c2div")
 debug_color = Color(0.97127575, 0, 0.4522931, 0.41960785)
 
 [node name="HealthComponent" parent="." unique_id=1658908744 instance=ExtResource("3_unfx2")]
 
 [node name="HitboxComponent" parent="." unique_id=331559080 instance=ExtResource("4_hwfpj")]
+visible = false
 collision_layer = 128
 collision_mask = 0
 
@@ -53,6 +54,7 @@ shape = SubResource("RectangleShape2D_c2div")
 debug_color = Color(0.97127575, 0, 0.4522931, 0.41960785)
 
 [node name="HurtboxComponent" parent="." unique_id=423441330 node_paths=PackedStringArray("_health") instance=ExtResource("5_63u3r")]
+visible = false
 collision_layer = 8
 collision_mask = 2
 Team = "enemy"
@@ -62,6 +64,7 @@ _health = NodePath("../HealthComponent")
 shape = SubResource("CircleShape2D_2j21f")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1332837267]
+visible = false
 collision_layer = 0
 
 [node name="Detection" type="CollisionShape2D" parent="DetectionArea" unique_id=1193909425]

@@ -18,4 +18,4 @@ position = Vector2(171, -44)
 zoom = Vector2(4, 4)
 
 [node name="Walker" parent="." unique_id=966812379 instance=ExtResource("3_1mbxj")]
-position = Vector2(227, -9)
+position = Vector2(230, -19)
