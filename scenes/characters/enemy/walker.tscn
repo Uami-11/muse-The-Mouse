@@ -33,7 +33,7 @@ EdgeDetector = NodePath("EdgeDetection")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=689623566]
 sprite_frames = ExtResource("2_63u3r")
-animation = &"walk"
+animation = &"hurt"
 autoplay = "walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1627233561]

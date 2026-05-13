@@ -40,6 +40,7 @@ public partial class Bullet : Area2D
             return;
         if (hurtbox.Team == Team)
             return;
+        hurtbox.TakeHit(Damage);
         QueueFree();
     }
 

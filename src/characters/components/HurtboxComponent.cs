@@ -29,4 +29,10 @@ public partial class HurtboxComponent : Area2D
         _health?.TakeDamage(hitbox.Damage);
         EmitSignal(SignalName.Hurt);
     }
+
+    public void TakeHit(int damage)
+    {
+        _health?.TakeDamage(damage);
+        EmitSignal(SignalName.Hurt);
+    }
 }
